@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+ 
+public interface ISmartDevice
+{
+    void TurnOn();
+    void TurnOff();
+    void ShowStatus();
+}
+ 
+public class SmartLamp : ISmartDevice
+{
+    public bool IsOn { get; private set; }  
+    public string Color { get; private set; }  
+
+    public SmartLamp()
+    {
+        IsOn = false;
+        Color = "White";   
+    }
+
+    public void TurnOn()
+    {
+        IsOn = true;
+        Console.WriteLine("Lamp turned on");
+    }
+
+    public void TurnOff()
+    {
+        IsOn = false;
+        Console.WriteLine("Lamp turned off");
+    }
+
+    public void ShowStatus()
+    {
+        Console.WriteLine($"Lamp is {(IsOn ? "on" : "off")}, color: {Color}");
+    }
+
+    public void ChangeColor(string color)
+    {
+        Color = color;
+        Console.WriteLine($"Lamp color changed to {Color}");
+    }
+}
+ 
+public class SmartThermostat : ISmartDevice
+{
+    public bool IsOn { get; private set; }  
+    public int Temperature { get; private set; }  
+
+    public SmartThermostat()
+    {
+        IsOn = false;
+        Temperature = 22;  
+    }
+
+    public void TurnOn()
+    {
+        IsOn = true;
+        Console.WriteLine("Thermostat turned on");
+    }
+
+    public void TurnOff()
+    {
+        IsOn = false;
+        Console.WriteLine("Thermostat turned off");
+    }
+
+    public void ShowStatus()
+    {
+        Console.WriteLine($"Thermostat is {(IsOn ? "on" : "off")}, temperature: {Temperature}°C");
+    }
+
+    public void SetTemperature(int temp)
+    {
+        Temperature = temp;
+        Console.WriteLine($"Temperature set to {Temperature}°C");
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+ 
+        List<ISmartDevice> devices = new List<ISmartDevice>
+        {
+            new SmartLamp(),
+            new SmartThermostat()
+        }; 
+        foreach (var device in devices)
+        {
+            device.TurnOn();
+            device.ShowStatus();
+            device.TurnOff();
+            device.ShowStatus();
+        }
+ 
+        var lamp = new SmartLamp();
+        lamp.TurnOn();
+        lamp.ChangeColor("Blue");
+        lamp.ShowStatus();
+ 
+        var thermostat = new SmartThermostat();
+        thermostat.TurnOn();
+        thermostat.SetTemperature(25);
+        thermostat.ShowStatus();
+    }
+}
